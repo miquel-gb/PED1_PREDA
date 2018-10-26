@@ -18,13 +18,6 @@ public class ArgsHelper {
     private String fileIn, fileOut;
     
     public ArgsHelper(String[] args) {
-        if (validateArgs(args)) {
-            // Assign params
-        }
-    }
-    
-    private boolean validateArgs(String[] args) {
-        return true;
     }
 
     public boolean isTrace() {
