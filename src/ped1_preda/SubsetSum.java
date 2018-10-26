@@ -1,39 +1,68 @@
 package ped1_preda;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Miquel Ginés Borràs
  */
 public class SubsetSum {
     
-    private int[] numSet;
+    private ArrayList<Integer> numSet;
     
     private int sumGoal;
     
     private int maxSubset;
     
+    private ArrayList<int[]> results = new ArrayList<>();
+    
     public SubsetSum() {
         
     }
 
-    public SubsetSum(int[] numSet, int sumGoal, int maxSubset) {
+    public SubsetSum(ArrayList<Integer> numSet, int sumGoal, int maxSubset) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
     }
 
-    public int[][] computeSubsetSum() {
-        return null;
+    public void computeSubsetSum() {
+        compute(sumGoal, new ArrayList<Integer>(), numSet, 0);
     }
     
-    public int[] getNumSet() {
-        return numSet;
+    private void compute(int n, ArrayList<Integer> xs, ArrayList<Integer> array, int i) {
+        
+        if (n == 0 && xs.size() <= maxSubset) {
+            storeSolution(xs);
+            return;
+        }
+        
+        if (n < 0 || i >= array.size() || xs.size() > maxSubset) {
+            return;
+        }
+        
+        xs.add(array.get(i));
+        
+        compute(n - array.get(i), xs, array, i + 1);
+        
+        xs.remove(xs.size() - 1);
+        
+        compute(n, xs, array, i + 1);
     }
-
-    public void setNumSet(int[] numSet) {
-        this.numSet = numSet;
+    
+    private void storeSolution(ArrayList<Integer> xs) {
+        results.add(xs.stream().mapToInt(i -> i).toArray());
     }
-
+    
+    public void printSolutions() {
+        for (int[] resultSet : results) {
+            for (int result : resultSet) {
+                System.out.print("" + result + " ");
+            }
+            System.out.println(" ");
+        }
+    }
+    
     public int getSumGoal() {
         return sumGoal;
     }
