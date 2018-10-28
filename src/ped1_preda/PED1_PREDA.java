@@ -41,7 +41,9 @@ public class PED1_PREDA {
         subsetSum.computeSubsetSum();
         
         subsetSum.printSolutions();
-        
+
+        System.out.println("Finishing...");
+
         try {
             //ArgsHelper argsHelper = new ArgsHelper(args);
         } catch(Exception e) {
