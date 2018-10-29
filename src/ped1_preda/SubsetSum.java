@@ -50,6 +50,26 @@ public class SubsetSum {
         compute(n, xs, array, i + 1);
     }
     
+    // Invoke by isSubsetSum(numSet, numSet.size(), sumGoal)
+    // Lacks of maxSubset validation
+    private boolean isSubsetSum(ArrayList<Integer> set, int n, int sum) {
+        if (sum == 0)  {
+            // Is a solution, store it
+            return true;
+        }
+        if (n == 0 && sum != 0 {
+             // No solution
+             return false;   
+        }
+        
+            // Last element is greater than the sum, ignore it
+            if (set.get(n-1) > sum) {
+                return isSubsetSum(set, n-1, sum);   
+            }
+            
+            return isSubsetSum(set, n-1, sum) || isSubsetSum(set, n-1, sum-set.get(n-1));
+    }
+    
     private void storeSolution(ArrayList<Integer> xs) {
         results.add(xs.stream().mapToInt(i -> i).toArray());
     }
