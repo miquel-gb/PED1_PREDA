@@ -1,6 +1,7 @@
 package ped1_preda;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -8,29 +9,54 @@ import java.util.ArrayList;
  */
 public class SubsetSum {
     
-    private ArrayList<Integer> numSet;
-    
+    // Conjunto de números      
+    private List<Integer> numSet;
+    // Suma objetivo para los subconjuntos
     private int sumGoal;
-    
+    // Máximo de números por subconjunto
     private int maxSubset;
-    
+    // Subconjuntos que cumplen los requisitos para ser solución
     private ArrayList<int[]> results = new ArrayList<>();
     
-    public SubsetSum() {
-        
-    }
+    private boolean trace = false;
 
-    public SubsetSum(ArrayList<Integer> numSet, int sumGoal, int maxSubset) {
+    /**
+     * Constructor principal
+     * 
+     * @param numSet Conjunto de números
+     * @param sumGoal Suma objetivo para los subconjuntos
+     * @param maxSubset Máximo de números por subconjunto
+     */
+    public SubsetSum(List<Integer> numSet, int sumGoal, int maxSubset) {
+        this.numSet = numSet;
+        this.sumGoal = sumGoal;
+        this.maxSubset = maxSubset;
+    }
+    
+    public SubsetSum(List<Integer> numSet, int sumGoal, int maxSubset, boolean trace) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
     }
 
+    /**
+     * Método que inicia la búsqueda mediante backtracking recursivo de los
+     * subconjuntos que cumplen los requisitos
+     */
     public void computeSubsetSum() {
         compute(sumGoal, new ArrayList<Integer>(), numSet, 0);
     }
     
-    private void compute(int n, ArrayList<Integer> xs, ArrayList<Integer> array, int i) {
+    /**
+     * Realiza la búsqueda mediante backtracking recursivo de los
+     * subconjuntos que cumplen los requisitos
+     * 
+     * @param n
+     * @param xs
+     * @param array
+     * @param i 
+     */
+    private void compute(int n, ArrayList<Integer> xs, List<Integer> array, int i) {
         
         if (n == 0 && xs.size() <= maxSubset) {
             storeSolution(xs);
@@ -50,26 +76,11 @@ public class SubsetSum {
         compute(n, xs, array, i + 1);
     }
     
-    // Invoke by isSubsetSum(numSet, numSet.size(), sumGoal)
-    // Lacks of maxSubset validation
-    private boolean isSubsetSum(ArrayList<Integer> set, int n, int sum) {
-        if (sum == 0)  {
-            // Is a solution, store it
-            return true;
-        }
-        if (n == 0 && sum != 0 {
-             // No solution
-             return false;   
-        }
-        
-            // Last element is greater than the sum, ignore it
-            if (set.get(n-1) > sum) {
-                return isSubsetSum(set, n-1, sum);   
-            }
-            
-            return isSubsetSum(set, n-1, sum) || isSubsetSum(set, n-1, sum-set.get(n-1));
-    }
-    
+    /**
+     * Guarda como array de enteros el subconjunto recibido por parámetros
+     * 
+     * @param xs Subconjunto de números a guardar como solución
+     */
     private void storeSolution(ArrayList<Integer> xs) {
         results.add(xs.stream().mapToInt(i -> i).toArray());
     }
@@ -82,21 +93,42 @@ public class SubsetSum {
             System.out.println(" ");
         }
     }
+
+    /**
+     * Getter del conjunto principal de números
+     * 
+     * @return Conjunto principal de números
+     */
+    public List<Integer> getNumSet() {
+        return numSet;
+    }
     
+    /**
+     * Getter de la suma objetivo para el subconjunto
+     * 
+     * @return Suma objetivo para el subconjunto
+     */
     public int getSumGoal() {
         return sumGoal;
     }
 
-    public void setSumGoal(int sumGoal) {
-        this.sumGoal = sumGoal;
-    }
-
+    /**
+     * Getter del límite de números por subconjunto
+     * 
+     * @return Máximo de números por subconjunto
+     */
     public int getMaxSubset() {
         return maxSubset;
     }
 
-    public void setMaxSubset(int maxSubset) {
-        this.maxSubset = maxSubset;
+    /**
+     * Getter de la lista de subconjuntos solución
+     * 
+     * @return Lista de subconjuntos solución
+     */
+    public ArrayList<int[]> getResults() {
+        return results;
     }
+    
     
 }
