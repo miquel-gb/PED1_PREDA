@@ -47,12 +47,24 @@ public class IOHelper {
         return new SubsetSum(numSet, sumGoal, maxSubset);
     }
 
-    public void printResultsToFile() {
+    public void printResultsToFile(SubsetSum subsetSum) {
 
     }
 
-    public void printResultsToConsole() {
-
+    public void printResultsToConsole(SubsetSum subsetSum) {
+        System.out.println("\r\n---------------------------------------------------------------------------");
+        /*System.out.println("\r\nConjunto original: " + subsetSum.getNumSet().toString().replaceAll(",", ""));
+        System.out.println("Suma objetivo: " + subsetSum.getSumGoal());
+        System.out.println("Máximo de números por subconjunto solución: " + subsetSum.getMaxSubset());
+        System.out.println("\n\rSubconjuntos solución:");*/
+        subsetSum.getResults().forEach(
+                (result) -> {
+                    for (int num : result) {
+                        System.out.print(num + " ");
+                    }
+                    System.out.println();
+                }
+        );
     }
 
     private String readLineFromConsole(String msg) {

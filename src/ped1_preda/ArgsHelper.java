@@ -1,16 +1,19 @@
 package ped1_preda;
 
+import java.io.File;
+import java.util.Arrays;
+
 /**
  *
  * @author Miquel Ginés Borràs  
  */
 public class ArgsHelper {
     
-    private boolean trace;
+    private boolean trace = false;
     
-    private boolean help;
+    private boolean help = false;
     
-    private String fileIn, fileOut;
+    private String fileIn = null, fileOut = null;
     
     public ArgsHelper(String[] args) throws NullPointerException {
         validateArgs(args);
@@ -19,10 +22,19 @@ public class ArgsHelper {
     private void validateArgs(String[] args) throws NullPointerException {
         if (args.length > 4) {
             throw new NullPointerException();
+        } else if (args.length > 0){
+            if (Arrays.asList(args).contains("-t")) {
+                trace = true;
+            }
+            if (Arrays.asList(args).contains("-h")) {
+                help = true;
+            }
+            File f = new File("");
+            f.exists();
         }
     }
 
-    public boolean isTrace() {
+    public boolean showTrace() {
         return trace;
     }
 

@@ -37,6 +37,7 @@ public class SubsetSum {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
+        this.trace = trace;
     }
 
     /**
@@ -57,13 +58,18 @@ public class SubsetSum {
      * @param i 
      */
     private void compute(int n, ArrayList<Integer> xs, List<Integer> array, int i) {
-        
+        if (trace && xs.size() > 0) {
+            System.out.println("Comprobando subconjunto: " + xs);
+        }
         if (n == 0 && xs.size() <= maxSubset) {
             storeSolution(xs);
             return;
         }
         
         if (n < 0 || i >= array.size() || xs.size() > maxSubset) {
+            if(trace && xs.size() > 0) {
+                System.out.println("El subconjunto " + xs + " no es una solución válida. Volviendo atrás.");
+            }
             return;
         }
         
@@ -82,6 +88,9 @@ public class SubsetSum {
      * @param xs Subconjunto de números a guardar como solución
      */
     private void storeSolution(ArrayList<Integer> xs) {
+        if (trace) {
+            System.out.println(" --- Hallado subconjunto solución: " + xs);
+        }
         results.add(xs.stream().mapToInt(i -> i).toArray());
     }
     
@@ -129,6 +138,14 @@ public class SubsetSum {
     public ArrayList<int[]> getResults() {
         return results;
     }
-    
-    
+
+    /**
+     * Setter del boolean para mostrar o no mostrar los pasos que realiza
+     * el algoritmo
+     *
+     * @param trace Valor del trace
+     */
+    public void setTrace(boolean trace) {
+        this.trace = trace;
+    }
 }

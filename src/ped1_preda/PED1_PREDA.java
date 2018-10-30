@@ -19,14 +19,18 @@ public class PED1_PREDA {
     public PED1_PREDA(String[] args) {
         System.out.println("Iniciando aplicación...\n\r");
 
+        ArgsHelper params = new ArgsHelper(args);
+
+
         IOHelper ioHelper = new IOHelper();
 
         SubsetSum subsetSum = ioHelper.readFromKeyboard();
+        subsetSum.setTrace(params.showTrace());
         if (subsetSum != null) {
             subsetSum.computeSubsetSum();
 
-            subsetSum.printSolutions();
-
+            //subsetSum.printSolutions();
+            ioHelper.printResultsToConsole(subsetSum);
         }
 
         System.out.println("\n\rFinalizando aplicación...");
