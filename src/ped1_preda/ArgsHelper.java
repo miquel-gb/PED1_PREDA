@@ -13,24 +13,34 @@ public class ArgsHelper {
     
     private boolean help = false;
     
-    private String fileIn = null, fileOut = null;
+    private File fileIn = null, fileOut = null;
     
-    public ArgsHelper(String[] args) throws NullPointerException {
+    public ArgsHelper(String[] args) throws Exception {
         validateArgs(args);
     }
     
-    private void validateArgs(String[] args) throws NullPointerException {
+    private void validateArgs(String[] args) throws Exception {
         if (args.length > 4) {
-            throw new NullPointerException();
+            throw new Exception("La llamada acepta sólo de 0 a 4 parámetros.");
         } else if (args.length > 0){
-            if (Arrays.asList(args).contains("-t")) {
-                trace = true;
+            for (String arg : args) {
+                if (arg.equals("-t")) {
+                    trace = true;
+                } else if (arg.equals("-h")) {
+                    help = true;
+                } else if (fileIn == null ) {
+                    fileIn = new File(arg);
+                } else {
+                    fileOut = new File(arg);
+                }
             }
-            if (Arrays.asList(args).contains("-h")) {
-                help = true;
+            if (!fileIn.exists()) {
+                System.out.println("No se ha encontrado el fichero, se procederá a la entrada de datos por consola.");
+                fileIn = null;
             }
-            File f = new File("");
-            f.exists();
+            if (fileOut.exists()) {
+                throw new Exception("El fichero de salida ya existe, eliminalo para continuar.");
+            }
         }
     }
 
@@ -42,11 +52,11 @@ public class ArgsHelper {
         return help;
     }
 
-    public String getFileIn() {
+    public File getFileIn() {
         return fileIn;
     }
 
-    public String getFileOut() {
+    public File getFileOut() {
         return fileOut;
     }
 }

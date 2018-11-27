@@ -1,5 +1,6 @@
 package ped1_preda;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,14 @@ public class PED1_PREDA {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new PED1_PREDA(args);
+        try {
+            new PED1_PREDA(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public PED1_PREDA(String[] args) {
+    public PED1_PREDA(String[] args) throws Exception {
         System.out.println("Iniciando aplicación...\n\r");
 
         ArgsHelper params = new ArgsHelper(args);
@@ -24,13 +29,16 @@ public class PED1_PREDA {
 
         IOHelper ioHelper = new IOHelper();
 
+        File file = new File("test.txt");
+
         SubsetSum subsetSum = ioHelper.readFromKeyboard();
         subsetSum.setTrace(params.showTrace());
         if (subsetSum != null) {
             subsetSum.computeSubsetSum();
 
             //subsetSum.printSolutions();
-            ioHelper.printResultsToConsole(subsetSum);
+            //ioHelper.printResultsToConsole(subsetSum);
+            ioHelper.printResultsToFile(subsetSum, file);
         }
 
         System.out.println("\n\rFinalizando aplicación...");

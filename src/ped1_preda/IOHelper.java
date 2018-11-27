@@ -1,5 +1,6 @@
 package ped1_preda;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,8 +48,21 @@ public class IOHelper {
         return new SubsetSum(numSet, sumGoal, maxSubset);
     }
 
-    public void printResultsToFile(SubsetSum subsetSum) {
-
+    public void printResultsToFile(SubsetSum subsetSum, File file) {
+        try {
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false)));
+            String printString = "";
+            for (int[] result : subsetSum.getResults()) {
+                for (int num : result) {
+                    printString += num + " ";
+                }
+                printString += "\r\n";
+            }
+            writer.write(printString);
+            writer.close();
+        } catch(Exception e) {
+            System.out.println(e);
+        }
     }
 
     public void printResultsToConsole(SubsetSum subsetSum) {
