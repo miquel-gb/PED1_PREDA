@@ -38,7 +38,7 @@ public class ArgsHelper {
                 System.out.println("No se ha encontrado el fichero, se procederá a la entrada de datos por consola.");
                 fileIn = null;
             }
-            if (fileOut.exists()) {
+            if (fileOut != null && fileOut.exists()) {
                 throw new Exception("El fichero de salida ya existe, eliminalo para continuar.");
             }
         }

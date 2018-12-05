@@ -24,24 +24,32 @@ public class PED1_PREDA {
     }
 
     public PED1_PREDA(String[] args) throws Exception {
+
         System.out.println("Iniciando aplicación...\n\r");
 
-        //ArgsHelper params = new ArgsHelper(args);
+        ArgsHelper params = new ArgsHelper(args);
 
 
         IOHelper ioHelper = new IOHelper();
 
-        File file = new File("test.txt");
+        SubsetSum subsetSum;
+        if (params.getFileIn() != null) {
+            subsetSum = ioHelper.readFromFile(params.getFileIn());
+        } else {
+            subsetSum = ioHelper.readFromKeyboard();
+        }
 
-        SubsetSum subsetSum = ioHelper.readFromKeyboard();
-//        subsetSum.setTrace(params.showTrace());
+        subsetSum.setTrace(params.showTrace());
         if (subsetSum != null) {
             System.out.println(subsetSum.toString());
-            //subsetSum.computeSubsetSum();
+            subsetSum.computeSubsetSum();
 
-            //subsetSum.printSolutions();
-            //ioHelper.printResultsToConsole(subsetSum);
-            //ioHelper.printResultsToFile(subsetSum, file);
+            subsetSum.printSolutions();
+            if (params.getFileOut() != null) {
+                ioHelper.printResultsToFile(subsetSum, params.getFileOut());
+            } else {
+                ioHelper.printResultsToConsole(subsetSum);
+            }
         }
 
         System.out.println("\n\rFinalizando aplicación...");

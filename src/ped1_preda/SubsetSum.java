@@ -1,6 +1,7 @@
 package ped1_preda;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,9 @@ import java.util.Set;
 public class SubsetSum {
     
     // Conjunto de números      
-    private Set<Integer> numSet;
+    private ArrayList<Integer> numSet;
+
+    private ArrayList<Boolean> boolSet = new ArrayList<>();
     // Suma objetivo para los subconjuntos
     private int sumGoal;
     // Máximo de números por subconjunto
@@ -28,13 +31,16 @@ public class SubsetSum {
      * @param sumGoal Suma objetivo para los subconjuntos
      * @param maxSubset Máximo de números por subconjunto
      */
-    public SubsetSum(Set<Integer> numSet, int sumGoal, int maxSubset) {
+    public SubsetSum(ArrayList<Integer> numSet, int sumGoal, int maxSubset) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
+        for (int i = 0; i < numSet.size(); i++) {
+            this.boolSet.add(false);
+        }
     }
     
-    public SubsetSum(Set<Integer> numSet, int sumGoal, int maxSubset, boolean trace) {
+    public SubsetSum(ArrayList<Integer> numSet, int sumGoal, int maxSubset, boolean trace) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
@@ -46,53 +52,53 @@ public class SubsetSum {
      * subconjuntos que cumplen los requisitos
      */
     public void computeSubsetSum() {
-        compute(sumGoal, new ArrayList<Integer>(), numSet, 0);
+        compute(numSet, 0, boolSet, 0, 0);
     }
-    
+
     /**
      * Realiza la búsqueda mediante backtracking recursivo de los
      * subconjuntos que cumplen los requisitos
-     * 
+     *
+     * @param numSet
      * @param n
-     * @param xs
-     * @param array
-     * @param i 
+     * @param boolSet
+     * @param maxSubset
+     * @param sum
      */
-    private void compute(int n, ArrayList<Integer> xs, Set<Integer> array, int i) {
-//        if (trace && xs.size() > 0) {
-//            System.out.println("Comprobando subconjunto: " + xs);
-//        }
-//        if (n == 0 && xs.size() <= maxSubset) {
-//            storeSolution(xs);
-//            return;
-//        }
-//
-//        if (n < 0 || i >= array.size() || xs.size() > maxSubset) {
-//            if(trace && xs.size() > 0) {
-//                System.out.println("El subconjunto " + xs + " no es una solución válida. Volviendo atrás.");
-//            }
-//            return;
-//        }
-//
-//        xs.add(array.get(i));
-//
-//        compute(n - array.get(i), xs, array, i + 1);
-//
-//        xs.remove(xs.size() - 1);
-//
-//        compute(n, xs, array, i + 1);
+    private void compute(ArrayList<Integer> numSet, int n, ArrayList<Boolean> boolSet, int maxSubset, int sum) {
+        if (maxSubset == this.maxSubset) {
+            if (sum == this.sumGoal) {
+                storeSolution(boolSet);
+            }
+        } else {
+            if (n < numSet.size()) {
+                boolSet.set(n, false);
+                compute(numSet, n + 1, boolSet, maxSubset, sum);
+                if (sum + numSet.get(n) <= this.sumGoal) {
+                    boolSet.set(n, true);
+                    sum += numSet.get(n);
+                    maxSubset++;
+                    compute(numSet, n + 1, boolSet, maxSubset, sum);
+                }
+            }
+        }
     }
     
     /**
      * Guarda como array de enteros el subconjunto recibido por parámetros
-     * 
-     * @param xs Subconjunto de números a guardar como solución
      */
-    private void storeSolution(ArrayList<Integer> xs) {
-        if (trace) {
-            System.out.println(" --- Hallado subconjunto solución: " + xs);
+    private void storeSolution(ArrayList<Boolean> boolSet) {
+//        System.out.print("We got a solution --> ");
+//        System.out.println(boolSet.toString());
+        ArrayList<Integer> result = new ArrayList<>();
+        int cont = 0;
+        for (int i = 0; i < boolSet.size() && cont < maxSubset; i++) {
+            if (boolSet.get(i)) {
+                result.add(numSet.get(i));
+                cont++;
+            }
         }
-        results.add(xs.stream().mapToInt(i -> i).toArray());
+        results.add(result.stream().mapToInt(i -> i).toArray());
     }
     
     public void printSolutions() {
@@ -109,7 +115,7 @@ public class SubsetSum {
      * 
      * @return Conjunto principal de números
      */
-    public Set<Integer> getNumSet() {
+    public ArrayList<Integer> getNumSet() {
         return numSet;
     }
     
