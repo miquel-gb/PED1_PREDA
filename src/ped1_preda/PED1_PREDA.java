@@ -2,7 +2,9 @@ package ped1_preda;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -24,7 +26,7 @@ public class PED1_PREDA {
     public PED1_PREDA(String[] args) throws Exception {
         System.out.println("Iniciando aplicación...\n\r");
 
-        ArgsHelper params = new ArgsHelper(args);
+        //ArgsHelper params = new ArgsHelper(args);
 
 
         IOHelper ioHelper = new IOHelper();
@@ -32,13 +34,14 @@ public class PED1_PREDA {
         File file = new File("test.txt");
 
         SubsetSum subsetSum = ioHelper.readFromKeyboard();
-        subsetSum.setTrace(params.showTrace());
+//        subsetSum.setTrace(params.showTrace());
         if (subsetSum != null) {
-            subsetSum.computeSubsetSum();
+            System.out.println(subsetSum.toString());
+            //subsetSum.computeSubsetSum();
 
             //subsetSum.printSolutions();
             //ioHelper.printResultsToConsole(subsetSum);
-            ioHelper.printResultsToFile(subsetSum, file);
+            //ioHelper.printResultsToFile(subsetSum, file);
         }
 
         System.out.println("\n\rFinalizando aplicación...");

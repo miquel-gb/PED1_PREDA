@@ -2,6 +2,7 @@ package ped1_preda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -10,7 +11,7 @@ import java.util.List;
 public class SubsetSum {
     
     // Conjunto de números      
-    private List<Integer> numSet;
+    private Set<Integer> numSet;
     // Suma objetivo para los subconjuntos
     private int sumGoal;
     // Máximo de números por subconjunto
@@ -27,13 +28,13 @@ public class SubsetSum {
      * @param sumGoal Suma objetivo para los subconjuntos
      * @param maxSubset Máximo de números por subconjunto
      */
-    public SubsetSum(List<Integer> numSet, int sumGoal, int maxSubset) {
+    public SubsetSum(Set<Integer> numSet, int sumGoal, int maxSubset) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
     }
     
-    public SubsetSum(List<Integer> numSet, int sumGoal, int maxSubset, boolean trace) {
+    public SubsetSum(Set<Integer> numSet, int sumGoal, int maxSubset, boolean trace) {
         this.numSet = numSet;
         this.sumGoal = sumGoal;
         this.maxSubset = maxSubset;
@@ -57,29 +58,29 @@ public class SubsetSum {
      * @param array
      * @param i 
      */
-    private void compute(int n, ArrayList<Integer> xs, List<Integer> array, int i) {
-        if (trace && xs.size() > 0) {
-            System.out.println("Comprobando subconjunto: " + xs);
-        }
-        if (n == 0 && xs.size() <= maxSubset) {
-            storeSolution(xs);
-            return;
-        }
-        
-        if (n < 0 || i >= array.size() || xs.size() > maxSubset) {
-            if(trace && xs.size() > 0) {
-                System.out.println("El subconjunto " + xs + " no es una solución válida. Volviendo atrás.");
-            }
-            return;
-        }
-        
-        xs.add(array.get(i));
-        
-        compute(n - array.get(i), xs, array, i + 1);
-        
-        xs.remove(xs.size() - 1);
-        
-        compute(n, xs, array, i + 1);
+    private void compute(int n, ArrayList<Integer> xs, Set<Integer> array, int i) {
+//        if (trace && xs.size() > 0) {
+//            System.out.println("Comprobando subconjunto: " + xs);
+//        }
+//        if (n == 0 && xs.size() <= maxSubset) {
+//            storeSolution(xs);
+//            return;
+//        }
+//
+//        if (n < 0 || i >= array.size() || xs.size() > maxSubset) {
+//            if(trace && xs.size() > 0) {
+//                System.out.println("El subconjunto " + xs + " no es una solución válida. Volviendo atrás.");
+//            }
+//            return;
+//        }
+//
+//        xs.add(array.get(i));
+//
+//        compute(n - array.get(i), xs, array, i + 1);
+//
+//        xs.remove(xs.size() - 1);
+//
+//        compute(n, xs, array, i + 1);
     }
     
     /**
@@ -108,7 +109,7 @@ public class SubsetSum {
      * 
      * @return Conjunto principal de números
      */
-    public List<Integer> getNumSet() {
+    public Set<Integer> getNumSet() {
         return numSet;
     }
     
@@ -147,5 +148,12 @@ public class SubsetSum {
      */
     public void setTrace(boolean trace) {
         this.trace = trace;
+    }
+
+    @Override
+    public String toString() {
+        return "SubsetSum{" +
+                "numSet=" + numSet +
+                '}';
     }
 }

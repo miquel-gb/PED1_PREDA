@@ -1,10 +1,7 @@
 package ped1_preda;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,17 +18,16 @@ public class IOHelper {
     }
 
     public SubsetSum readFromKeyboard() {
-        List<Integer> numSet = null;
+        Set<Integer> numSet = new HashSet<Integer>();
         int sumGoal = 0, maxSubset = 0;
         String input = readLineFromConsole("Introduce el conjunto principal de números (enteros, separados por espacio):");
         try {
             // Lee el conjunto principal de números
-            numSet = Arrays
-                    .stream(
-                            Arrays.stream(input.split(" "))
-                                    .mapToInt(Integer::parseInt).toArray()
-                    ).boxed()
-                    .collect(Collectors.toList());
+            for (String s : input.split(" ")) {
+                if (!numSet.add(Integer.parseInt(s))) {
+                    throw new Exception("Duplicated entry");
+                }
+            }
             
             // Lee la suma objetivo a alcanzas por los subconjuntos
             input = readLineFromConsole("Introduce la suma objetivo a alcanzar con los subconjuntos (entero):");
@@ -42,7 +38,10 @@ public class IOHelper {
             maxSubset = Integer.parseInt(input);
         } catch (NumberFormatException e) {
             // Se ha introducido algo que no era un número, se parará la ejecución
-            System.out.println("ERROR: Se ha introducido algún carácter no válido.");
+            System.err.println("ERROR: Se ha introducido algún carácter no válido.");
+            return null;
+        } catch (Exception e) {
+            System.err.println("ERROR: Se ha introducido un valor duplicado en el conjunto de números de entrada.");
             return null;
         }
         return new SubsetSum(numSet, sumGoal, maxSubset);
