@@ -1,3 +1,5 @@
 Manifest-Version: 1.0
 X-COMMENT: Main-Class will be added automatically by build
+Class-Path: ped1_preda
+Main-Class: ped1_preda.PED1_PREDA
 

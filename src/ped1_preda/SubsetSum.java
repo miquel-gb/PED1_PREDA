@@ -13,7 +13,7 @@ public class SubsetSum {
     
     // Conjunto de números      
     private ArrayList<Integer> numSet;
-
+    // Lista auxiliar de booleanos
     private ArrayList<Boolean> boolSet = new ArrayList<>();
     // Suma objetivo para los subconjuntos
     private int sumGoal;
@@ -21,7 +21,7 @@ public class SubsetSum {
     private int maxSubset;
     // Subconjuntos que cumplen los requisitos para ser solución
     private ArrayList<int[]> results = new ArrayList<>();
-    
+    // Flag para indicar si hay que mostrar la traza o no
     private boolean trace = false;
 
     /**
@@ -58,15 +58,20 @@ public class SubsetSum {
     /**
      * Realiza la búsqueda mediante backtracking recursivo de los
      * subconjuntos que cumplen los requisitos
-     *
-     * @param numSet
-     * @param n
-     * @param boolSet
-     * @param maxSubset
-     * @param sum
      */
     private void compute(ArrayList<Integer> numSet, int n, ArrayList<Boolean> boolSet, int maxSubset, int sum) {
         if (maxSubset == this.maxSubset) {
+            if (trace) {
+                ArrayList<Integer> result = new ArrayList<>();
+                int cont = 0;
+                for (int i = 0; i < boolSet.size() && cont < maxSubset; i++) {
+                    if (boolSet.get(i)) {
+                        result.add(numSet.get(i));
+                        cont++;
+                    }
+                }
+                System.out.println("\tComprobando subconjunto " + result);
+            }
             if (sum == this.sumGoal) {
                 storeSolution(boolSet);
             }
@@ -88,8 +93,6 @@ public class SubsetSum {
      * Guarda como array de enteros el subconjunto recibido por parámetros
      */
     private void storeSolution(ArrayList<Boolean> boolSet) {
-//        System.out.print("We got a solution --> ");
-//        System.out.println(boolSet.toString());
         ArrayList<Integer> result = new ArrayList<>();
         int cont = 0;
         for (int i = 0; i < boolSet.size() && cont < maxSubset; i++) {
@@ -97,6 +100,9 @@ public class SubsetSum {
                 result.add(numSet.get(i));
                 cont++;
             }
+        }
+        if (trace) {
+            System.out.println("\tEncontrado conjunto solución: " + result);
         }
         results.add(result.stream().mapToInt(i -> i).toArray());
     }

@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Build">
+    <output-path>$PROJECT_DIR$/out/artifacts/Build</output-path>
+    <root id="archive" name="Build.jar">
+      <element id="module-output" name="PED1_PREDA" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/manifest.mf" output-file-name="MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

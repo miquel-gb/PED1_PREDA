@@ -1,13 +1,6 @@
 package ped1_preda;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
- *
  * @author Miquel Ginés Borràs
  */
 public class PED1_PREDA {
@@ -23,55 +16,68 @@ public class PED1_PREDA {
         }
     }
 
+    /**
+     * Método principal, realiza las llamadas a las clases auxiliares para el correcto funcionamiento
+     * del proyecto
+     *
+     * @param args
+     * @throws Exception
+     */
     public PED1_PREDA(String[] args) throws Exception {
 
-        System.out.println("Iniciando aplicación...\n\r");
-
+        System.out.println("Iniciando aplicación...");
+        /**
+         * Llama al validador de argumentos de entrada pasando la lista de argumentos a ser tratados
+         */
         ArgsHelper params = new ArgsHelper(args);
 
-
+        /**
+         * Crea el gestor de entrada/salida de datos
+         */
         IOHelper ioHelper = new IOHelper();
 
-        SubsetSum subsetSum;
-        if (params.getFileIn() != null) {
-            subsetSum = ioHelper.readFromFile(params.getFileIn());
-        } else {
-            subsetSum = ioHelper.readFromKeyboard();
-        }
-
-        subsetSum.setTrace(params.showTrace());
-        if (subsetSum != null) {
-            System.out.println(subsetSum.toString());
-            subsetSum.computeSubsetSum();
-
-            subsetSum.printSolutions();
-            if (params.getFileOut() != null) {
-                ioHelper.printResultsToFile(subsetSum, params.getFileOut());
-            } else {
-                ioHelper.printResultsToConsole(subsetSum);
-            }
-        }
-
-        System.out.println("\n\rFinalizando aplicación...");
-
         /**
-         * List<Integer> a = new ArrayList<>();
-         *
-         * a.add(5); a.add(2); a.add(7); a.add(10); a.add(3); a.add(8);
-         * a.add(9); a.add(12); a.add(15); a.add(1); a.add(4); a.add(6);
-         * a.add(11); a.add(13); a.add(14);
-         *
-         * SubsetSum subsetSum = new SubsetSum(a, 11, 4);
-         *
-         * subsetSum.computeSubsetSum();
-         *
-         * subsetSum.printSolutions();
-         *
-         * System.out.println("Finishing...");
-         *
-         * try { //ArgsHelper argsHelper = new ArgsHelper(args); }
-         * catch(Exception e) { System.out.println(e); }
+         * Si se ha especificado el argumento de mostrar ayuda, la muestra
          */
+        if (params.showHelp()) {
+            params.printHelp();
+        } else {
+            /**
+             * Gestiona la entrada de datos mediante fichero o consola
+             */
+            SubsetSum subsetSum;
+            if (params.getFileIn() != null) {
+                subsetSum = ioHelper.readFromFile(params.getFileIn());
+            } else {
+                subsetSum = ioHelper.readFromKeyboard();
+            }
+
+            /**
+             * Asigna la salida o no de traza
+             */
+            subsetSum.setTrace(params.showTrace());
+
+            if (subsetSum != null) {
+                /**
+                 * Llama al método de computación del algoritmo principal
+                 */
+                subsetSum.computeSubsetSum();
+
+                /**
+                 * Muestra el resultado de la ejecución en fichero o consola
+                 */
+                if (params.getFileOut() != null) {
+                    ioHelper.printResultsToFile(subsetSum, params.getFileOut());
+                } else {
+                    ioHelper.printResultsToConsole(subsetSum);
+                }
+            }
+
+
+            System.out.println("\n\rFinalizando aplicación...");
+        }
+
+
     }
 
 }
